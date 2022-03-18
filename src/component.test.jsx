@@ -1,8 +1,8 @@
 import React from 'react';
-import TestComponent from './component';
+import TestComponent, { useMockRequest } from './component';
 import { create } from 'react-test-renderer';
 import { render, screen } from '@testing-library/react';
-import * as TestComponentModule from './component';
+import { renderHook } from '@testing-library/react-hooks';
 import '@testing-library/jest-dom';
 
 describe('TestComponent', () => {
@@ -30,15 +30,15 @@ describe('TestComponent', () => {
 });
 
 describe('useMockRequest', () => {
-    it('should change state after given delay', () => {
-        const useMockRequestSpy = jest.spyOn(TestComponentModule, 'useMockRequest');
+    it('should change state after given delay', async () => {
+        const { result, waitForNextUpdate } = renderHook(() => useMockRequest(100));
 
-        render(
-            <TestComponent>
-                <div>Node</div>
-            </TestComponent>
-        );
+        expect(result.current[0])
+            .toBeTruthy();
 
-        expect(useMockRequestSpy).toBeCalled();
+        await waitForNextUpdate();
+
+        expect(result.current[0])
+            .toBeFalsy();
     })
 });

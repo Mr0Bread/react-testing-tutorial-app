@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-export function useMockRequest(delay) {
+export const useMockRequest = (delay) => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => setTimeout(() => setIsLoading(false), delay), []);
